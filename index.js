@@ -9,7 +9,16 @@ const app = express()
 // variables
 const dbLink = process.env.DBLINK
 const port = process.env.DBPORT
-// const routes =
+const userRoute = require('./src/routes/userRoute')
+
+// database connection
+mongoose.connect(dbLink, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}, () => {
+    app.listen(port, () => {
+        console.info(`DATABASE CONNECTED ON PORT ${port}`)
+    })
+}, (error) => {
+    console.log(dbLink, port)
+})
 
 // middlewares
 app.use(express.json())
@@ -20,3 +29,4 @@ app.get('/', (request, response) => {
 })
 
 // routes
+app.use(userRoute)
